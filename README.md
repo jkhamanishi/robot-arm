@@ -13,17 +13,17 @@ This repo is a modified version of [python_usb_robot_arm](https://github.com/ori
 
 
 ## Installation Guide
-1. Download and install the [libusb-win32](https://sourceforge.net/projects/libusb-win32/files/libusb-win32-releases/) 
-package. Installing the package in the default folder is acceptable.
-2. Plug in the robot via USB.
-3. Download and run the most recent version of [**Zadig**](https://zadig.akeo.ie/).
-4. Select the robot. It may be listed as "Unknown Device #1". Ensure that it is the robot by checking 
+1. Download the [**libusb-win32**](https://sourceforge.net/projects/libusb-win32/files/libusb-win32-releases/) package. 
+2. Run the installation wizard. Installing the package in the default folder is acceptable.
+3. Plug the robot into your computer via USB.
+4. Download and run the most recent version of [**Zadig**](https://zadig.akeo.ie/).
+5. Select the robot device. It may be listed as "Unknown Device #1". Ensure that it is the robot by checking 
 that the **USB ID** displays 1267 and 0000 (as the Vendor ID and Product ID respectively). 
 ![Zadig screenshot](docs/media/Zadig.jpg)
-5. Choose "libusb-win32" as the driver to be installed. 
-6. Click "Install Driver". The installation may take a couple of minutes.
-7. Install the `pyusb` library. Installing through pip is suffice: `pip install pyusb`
-8. Run [`test_connection.py`](test_connection.py) to check that the connection works. The light on the robot should 
+6. Choose "libusb-win32" as the driver to be installed. 
+7. Click "Install Driver". The installation may take a couple of minutes.
+8. Install the `pyusb` library. Installing through pip is suffice: `pip install pyusb`
+9. Run [`test_connection.py`](test_connection.py) to check that the connection works. The light on the robot should 
 flash five times.
 
 ## Usage
