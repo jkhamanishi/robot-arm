@@ -21,7 +21,7 @@ DEFAULT_DURATION = 1  # seconds
 
 
 class _Move:
-    def __init__(self, move_function: Callable, message: msg.BitPattern):
+    def __init__(self, move_function: Callable[[msg.BitPattern, float], None], message: msg.BitPattern):
         self.move = move_function
         self.message = message
 
@@ -89,12 +89,12 @@ class Arm(object):
         self.base = _Base(self.move, cw_msg=msg.BASE.CW, ccw_msg=msg.BASE.CCW)
         self.led = _LED(self.move, on_msg=msg.LED.ON, off_msg=msg.LED.OFF)
 
-    def tell(self, message: msg.BitPattern):
+    def _tell(self, message: msg.BitPattern):
         """Send a USB message to the arm"""
         self.dev.ctrl_transfer(0x40, 6, 0x100, 0, message)
 
     def stop(self):
-        self.tell(msg.STOP)
+        self._tell(msg.STOP)
 
     def safe_tell(self, fn):
         """
@@ -111,7 +111,7 @@ class Arm(object):
     def move(self, pattern: msg.BitPattern, time=DEFAULT_DURATION):
         """Perform a pattern move with timing and stop"""
         try:
-            self.tell(pattern)
+            self._tell(pattern)
             sleep(time)
         finally:
             self.stop()
