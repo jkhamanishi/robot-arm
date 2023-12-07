@@ -1,17 +1,3 @@
-"""
-Maplin/OWI USB Robot arm control.
-
-Code derrived from python_usb_robot_arm by orionrobots
-
-Usage:
-
->>> import usb_arm
->>> arm = usb_arm.Arm()
->>> arm.grippers.open()
->>> arm.block_left()  # WARNING - ARM SHOULD BE ALL THE WAY RIGHT BEFORE TRYING THIS
-
-"""
-
 import usb_arm.usb_signals as msg
 import usb.core
 from time import sleep
@@ -89,12 +75,12 @@ class Arm(object):
         self.base = _Base(self.move, cw_msg=msg.BASE.CW, ccw_msg=msg.BASE.CCW)
         self.led = _LED(self.move, on_msg=msg.LED.ON, off_msg=msg.LED.OFF)
 
-    def _tell(self, message: msg.BitPattern):
+    def tell(self, message: msg.BitPattern):
         """Send a USB message to the arm"""
         self.dev.ctrl_transfer(0x40, 6, 0x100, 0, message)
 
     def stop(self):
-        self._tell(msg.STOP)
+        self.tell(msg.STOP)
 
     def safe_tell(self, fn):
         """
@@ -111,7 +97,7 @@ class Arm(object):
     def move(self, pattern: msg.BitPattern, time=DEFAULT_DURATION):
         """Perform a pattern move with timing and stop"""
         try:
-            self._tell(pattern)
+            self.tell(pattern)
             sleep(time)
         finally:
             self.stop()

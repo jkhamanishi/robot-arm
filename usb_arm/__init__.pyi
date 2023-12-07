@@ -1,3 +1,17 @@
+"""
+Maplin/OWI USB Robot arm control.
+
+Code derrived from python_usb_robot_arm by orionrobots
+
+Usage:
+
+>>> import usb_arm
+>>> arm = usb_arm.Arm()
+>>> arm.grippers.open()
+>>> arm.block_left()  # WARNING - ARM SHOULD BE ALL THE WAY RIGHT BEFORE TRYING THIS
+
+"""
+
 from usb_signals import BitPattern
 from usb.core import Device
 from typing import Callable
@@ -26,6 +40,7 @@ class _LED(_Actuator):
     off: _Move
 
 class Arm(object):
+    """Arm interface"""
     dev: Device
     grippers: _EndEffector
     wrist: _Joint
@@ -34,9 +49,12 @@ class Arm(object):
     base: _Base
     led: _LED
     def __init__(self) -> None: ...
-    def _tell(self, message: BitPattern) -> None: ...
+    def tell(self, message: BitPattern) -> None:
+        """Send a USB message to the arm"""
     def stop(self) -> None: ...
-    def move(self, pattern: BitPattern, time: float = ...) -> None: ...
-    def blink(self, count: int = 5) -> None: ...
+    def move(self, pattern: BitPattern, time: float = ...) -> None:
+        """Perform a pattern move with timing and stop"""
+    def blink(self, count: int = 5) -> None:
+        """Blink the LED on the arm. By default, five times."""
     def block_left(self) -> None: ...
     def block_right(self) -> None: ...
