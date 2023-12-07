@@ -14,18 +14,7 @@
   <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 
   <!--  Custom Stylesheet  -->
-  <style>
-    body {
-      display: grid;
-      grid: auto 1fr / 1fr;
-    }
-    .btn > * {
-      font-size: 8.0vmin;
-    }
-    #container-landscape .base .btn > * {
-      font-size: 4.0vmin;
-    }
-  </style>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 
 <body class="bg-dark text-white">

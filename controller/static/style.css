@@ -1,0 +1,12 @@
+body {
+  display: grid;
+  grid: auto 1fr / 1fr;
+}
+
+.btn > * {
+  font-size: 8.0vmin;
+}
+
+#container-landscape .base .btn > * {
+  font-size: 4.0vmin;
+}
