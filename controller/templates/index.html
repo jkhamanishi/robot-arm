@@ -1,0 +1,221 @@
+<html>
+<head>
+  <title>Robot Arm Controller</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Icon library -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  <!--  Bootswatch Cosmo theme for Boostrap  -->
+  <link rel="stylesheet" href="https://bootswatch.com/5/cosmo/bootstrap.css">
+
+  <!--  JQuery  -->
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+
+  <!--  Custom Stylesheet  -->
+  <style>
+    body {
+      display: grid;
+      grid: auto 1fr / 1fr;
+    }
+    .btn > * {
+      font-size: 8.0vmin;
+    }
+    #container-landscape .base .btn > * {
+      font-size: 4.0vmin;
+    }
+  </style>
+</head>
+
+<body class="bg-dark text-white">
+
+  <h1 class="text-center my-2">Robot Arm Controller</h1>
+
+  <main class="container-fluid d-flex d-md-none flex-column" id="container-portrait">
+
+    <section class="row mx-0 mb-3 flex-grow-1">
+      <header class="col-3 px-2"><h4 class="m-0">Grippers</h4></header>
+      <div class="col px-2">
+        <button class="btn btn-lg btn-primary w-100 h-100" type="button">
+          <i class="fa fa-arrow-left" aria-hidden="true"></i>
+          <i class="fa fa-arrow-right" aria-hidden="true"></i>
+        </button>
+      </div>
+      <div class="col px-2">
+        <button class="btn btn-lg btn-primary w-100 h-100" type="button">
+          <i class="fa fa-arrow-right" aria-hidden="true"></i>
+          <i class="fa fa-arrow-left" aria-hidden="true"></i>
+        </button>
+      </div>
+    </section>
+
+    <section class="row mx-0 mb-3 flex-grow-1">
+      <header class="col-3 px-2"><h4 class="m-0">Wrist</h4></header>
+      <div class="col px-2">
+        <button class="btn btn-lg btn-primary w-100 h-100" type="button">
+          <i class="fa fa-arrow-down" aria-hidden="true"></i>
+        </button>
+      </div>
+      <div class="col px-2">
+        <button class="btn btn-lg btn-primary w-100 h-100" type="button">
+          <i class="fa fa-arrow-up" aria-hidden="true"></i>
+        </button>
+      </div>
+    </section>
+
+    <section class="row mx-0 mb-3 flex-grow-1">
+      <header class="col-3 px-2"><h4 class="m-0">Elbow</h4></header>
+      <div class="col px-2">
+        <button class="btn btn-lg btn-primary w-100 h-100" type="button">
+          <i class="fa fa-arrow-down" aria-hidden="true"></i>
+        </button>
+      </div>
+      <div class="col px-2">
+        <button class="btn btn-lg btn-primary w-100 h-100" type="button">
+          <i class="fa fa-arrow-up" aria-hidden="true"></i>
+        </button>
+      </div>
+    </section>
+
+    <section class="row mx-0 mb-3 flex-grow-1 base">
+      <header class="col-3 px-2"><h4 class="m-0">Base & Shoulder</h4></header>
+      <div class="col px-2">
+        <button class="btn btn-lg btn-primary w-100 h-100" type="button">
+          <i class="fa fa-arrow-left" aria-hidden="true"></i>
+        </button>
+      </div>
+      <div class="col mx-0 px-2">
+        <div class="h-50 pb-2">
+          <button class="btn btn-lg btn-primary w-100 h-100" type="button">
+            <i class="fa fa-arrow-up" aria-hidden="true"></i>
+          </button>
+        </div>
+        <div class="h-50 pt-2">
+          <button class="btn btn-lg btn-primary w-100 h-100" type="button">
+            <i class="fa fa-arrow-down" aria-hidden="true"></i>
+          </button>
+        </div>
+      </div>
+      <div class="col px-2">
+        <button class="btn btn-lg btn-primary w-100 h-100" type="button">
+          <i class="fa fa-arrow-right" aria-hidden="true"></i>
+        </button>
+      </div>
+    </section>
+
+    <section class="row mx-0 mb-3">
+      <div class="col-3 px-2">
+        <input type="checkbox" class="btn-check" id="led-btn-portrait" autocomplete="off">
+        <label class="btn btn-lg btn-outline-light w-100 h-100 d-flex align-items-center justify-content-center" for="led-btn-portrait">
+          <i class="fa fa-lightbulb-o" aria-hidden="true"></i>
+        </label>
+      </div>
+      <div class="col px-2">
+        <button class="btn btn-lg btn-danger w-100 h-100" type="button">
+          <i class="fa fa-ban" aria-hidden="true"></i>
+          <b class="px-4">STOP</b>
+          <i class="fa fa-ban" aria-hidden="true"></i>
+        </button>
+      </div>
+    </section>
+
+  </main>
+
+  <main class="container-fluid d-none d-md-flex flex-column" id="container-landscape">
+
+    <div class="row mx-0 h-100">
+
+      <section class="col d-flex flex-column px-2 pb-2 h-100">
+        <header><h4 class="m-0">Grippers</h4></header>
+        <div class="py-2 flex-grow-1">
+          <button class="btn btn-lg btn-primary w-100 h-100" type="button">
+            <i class="fa fa-arrow-left" aria-hidden="true"></i>
+            <i class="fa fa-arrow-right" aria-hidden="true"></i>
+          </button>
+        </div>
+        <div class="py-2 flex-grow-1">
+          <button class="btn btn-lg btn-primary w-100 h-100" type="button">
+            <i class="fa fa-arrow-right" aria-hidden="true"></i>
+            <i class="fa fa-arrow-left" aria-hidden="true"></i>
+          </button>
+        </div>
+      </section>
+
+      <section class="col d-flex flex-column px-2 pb-2 h-100">
+        <header><h4 class="m-0">Wrist</h4></header>
+        <div class="py-2 flex-grow-1">
+          <button class="btn btn-lg btn-primary w-100 h-100" type="button">
+            <i class="fa fa-arrow-up" aria-hidden="true"></i>
+          </button>
+        </div>
+        <div class="py-2 flex-grow-1">
+          <button class="btn btn-lg btn-primary w-100 h-100" type="button">
+            <i class="fa fa-arrow-down" aria-hidden="true"></i>
+          </button>
+        </div>
+      </section>
+
+      <section class="col d-flex flex-column px-2 pb-2 h-100">
+        <header><h4 class="m-0">Elbow</h4></header>
+        <div class="py-2 flex-grow-1">
+          <button class="btn btn-lg btn-primary w-100 h-100" type="button">
+            <i class="fa fa-arrow-up" aria-hidden="true"></i>
+          </button>
+        </div>
+        <div class="py-2 flex-grow-1">
+          <button class="btn btn-lg btn-primary w-100 h-100" type="button">
+            <i class="fa fa-arrow-down" aria-hidden="true"></i>
+          </button>
+        </div>
+      </section>
+
+      <section class="col d-flex flex-column px-2 pb-2 h-100 base">
+        <header><h4 class="m-0 text-nowrap">Base & Shoulder</h4></header>
+        <div class="py-2 flex-grow-1">
+          <button class="btn btn-lg btn-primary w-100 h-100" type="button">
+            <i class="fa fa-arrow-up" aria-hidden="true"></i>
+          </button>
+        </div>
+        <div class="row py-2 flex-grow-1">
+          <div class="col pe-2">
+            <button class="btn btn-lg btn-primary w-100 h-100" type="button">
+              <i class="fa fa-arrow-left" aria-hidden="true"></i>
+            </button>
+          </div>
+          <div class="col ps-2">
+            <button class="btn btn-lg btn-primary w-100 h-100" type="button">
+              <i class="fa fa-arrow-right" aria-hidden="true"></i>
+            </button>
+          </div>
+        </div>
+        <div class="py-2 flex-grow-1">
+          <button class="btn btn-lg btn-primary w-100 h-100" type="button">
+            <i class="fa fa-arrow-down" aria-hidden="true"></i>
+          </button>
+        </div>
+      </section>
+
+    </div>
+
+    <footer class="row mx-0 pb-3">
+      <section class="col-3 px-2">
+        <input type="checkbox" class="btn-check" id="led-btn-landscape" autocomplete="off">
+        <label class="btn btn-lg btn-outline-light w-100 h-100 d-flex align-items-center justify-content-center" for="led-btn-landscape">
+          <i class="fa fa-lightbulb-o" aria-hidden="true"></i>
+        </label>
+      </section>
+      <section class="col-9 px-2">
+        <button class="btn btn-lg btn-danger w-100" type="button">
+          <i class="fa fa-ban" aria-hidden="true"></i>
+          <b class="px-4">STOP</b>
+          <i class="fa fa-ban" aria-hidden="true"></i>
+        </button>
+      </section>
+    </footer>
+
+  </main>
+
+</body>
+
+</html>
