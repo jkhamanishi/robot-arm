@@ -15,6 +15,10 @@
 
   <!--  Custom Stylesheet  -->
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+  <!--  Custom Script  -->
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
+
 </head>
 
 <body class="bg-dark text-white">
@@ -26,13 +30,13 @@
     <section class="row mx-0 mb-3 flex-grow-1">
       <header class="col-3 px-2"><h4 class="m-0">Grippers</h4></header>
       <div class="col px-2">
-        <button class="btn btn-lg btn-primary w-100 h-100" type="button">
+        <button class="btn btn-lg btn-primary w-100 h-100" type="button" id="grippers-open-btn-portrait">
           <i class="fa fa-arrow-left" aria-hidden="true"></i>
           <i class="fa fa-arrow-right" aria-hidden="true"></i>
         </button>
       </div>
       <div class="col px-2">
-        <button class="btn btn-lg btn-primary w-100 h-100" type="button">
+        <button class="btn btn-lg btn-primary w-100 h-100" type="button" id="grippers-close-btn-portrait">
           <i class="fa fa-arrow-right" aria-hidden="true"></i>
           <i class="fa fa-arrow-left" aria-hidden="true"></i>
         </button>
@@ -42,12 +46,12 @@
     <section class="row mx-0 mb-3 flex-grow-1">
       <header class="col-3 px-2"><h4 class="m-0">Wrist</h4></header>
       <div class="col px-2">
-        <button class="btn btn-lg btn-primary w-100 h-100" type="button">
+        <button class="btn btn-lg btn-primary w-100 h-100" type="button" id="wrist-down-btn-portrait">
           <i class="fa fa-arrow-down" aria-hidden="true"></i>
         </button>
       </div>
       <div class="col px-2">
-        <button class="btn btn-lg btn-primary w-100 h-100" type="button">
+        <button class="btn btn-lg btn-primary w-100 h-100" type="button" id="wrist-up-btn-portrait">
           <i class="fa fa-arrow-up" aria-hidden="true"></i>
         </button>
       </div>
@@ -56,12 +60,12 @@
     <section class="row mx-0 mb-3 flex-grow-1">
       <header class="col-3 px-2"><h4 class="m-0">Elbow</h4></header>
       <div class="col px-2">
-        <button class="btn btn-lg btn-primary w-100 h-100" type="button">
+        <button class="btn btn-lg btn-primary w-100 h-100" type="button" id="elbow-down-btn-portrait">
           <i class="fa fa-arrow-down" aria-hidden="true"></i>
         </button>
       </div>
       <div class="col px-2">
-        <button class="btn btn-lg btn-primary w-100 h-100" type="button">
+        <button class="btn btn-lg btn-primary w-100 h-100" type="button" id="elbow-up-btn-portrait">
           <i class="fa fa-arrow-up" aria-hidden="true"></i>
         </button>
       </div>
@@ -70,24 +74,24 @@
     <section class="row mx-0 mb-3 flex-grow-1 base">
       <header class="col-3 px-2"><h4 class="m-0">Base & Shoulder</h4></header>
       <div class="col px-2">
-        <button class="btn btn-lg btn-primary w-100 h-100" type="button">
+        <button class="btn btn-lg btn-primary w-100 h-100" type="button" id="base-ccw-btn-portrait">
           <i class="fa fa-arrow-left" aria-hidden="true"></i>
         </button>
       </div>
       <div class="col mx-0 px-2">
         <div class="h-50 pb-2">
-          <button class="btn btn-lg btn-primary w-100 h-100" type="button">
+          <button class="btn btn-lg btn-primary w-100 h-100" type="button" id="shoulder-up-btn-portrait">
             <i class="fa fa-arrow-up" aria-hidden="true"></i>
           </button>
         </div>
         <div class="h-50 pt-2">
-          <button class="btn btn-lg btn-primary w-100 h-100" type="button">
+          <button class="btn btn-lg btn-primary w-100 h-100" type="button" id="shoulder-down-btn-portrait">
             <i class="fa fa-arrow-down" aria-hidden="true"></i>
           </button>
         </div>
       </div>
       <div class="col px-2">
-        <button class="btn btn-lg btn-primary w-100 h-100" type="button">
+        <button class="btn btn-lg btn-primary w-100 h-100" type="button" id="base-cw-btn-portrait">
           <i class="fa fa-arrow-right" aria-hidden="true"></i>
         </button>
       </div>
@@ -101,7 +105,7 @@
         </label>
       </div>
       <div class="col px-2">
-        <button class="btn btn-lg btn-danger w-100 h-100" type="button">
+        <button class="btn btn-lg btn-danger w-100 h-100" type="button" id="stop-all-btn-portrait">
           <i class="fa fa-ban" aria-hidden="true"></i>
           <b class="px-4">STOP</b>
           <i class="fa fa-ban" aria-hidden="true"></i>
@@ -118,13 +122,13 @@
       <section class="col d-flex flex-column px-2 pb-2 h-100">
         <header><h4 class="m-0">Grippers</h4></header>
         <div class="py-2 flex-grow-1">
-          <button class="btn btn-lg btn-primary w-100 h-100" type="button">
+          <button class="btn btn-lg btn-primary w-100 h-100" type="button" id="grippers-open-btn-landscape">
             <i class="fa fa-arrow-left" aria-hidden="true"></i>
             <i class="fa fa-arrow-right" aria-hidden="true"></i>
           </button>
         </div>
         <div class="py-2 flex-grow-1">
-          <button class="btn btn-lg btn-primary w-100 h-100" type="button">
+          <button class="btn btn-lg btn-primary w-100 h-100" type="button" id="grippers-close-btn-landscape">
             <i class="fa fa-arrow-right" aria-hidden="true"></i>
             <i class="fa fa-arrow-left" aria-hidden="true"></i>
           </button>
@@ -134,12 +138,12 @@
       <section class="col d-flex flex-column px-2 pb-2 h-100">
         <header><h4 class="m-0">Wrist</h4></header>
         <div class="py-2 flex-grow-1">
-          <button class="btn btn-lg btn-primary w-100 h-100" type="button">
+          <button class="btn btn-lg btn-primary w-100 h-100" type="button" id="wrist-up-btn-landscape">
             <i class="fa fa-arrow-up" aria-hidden="true"></i>
           </button>
         </div>
         <div class="py-2 flex-grow-1">
-          <button class="btn btn-lg btn-primary w-100 h-100" type="button">
+          <button class="btn btn-lg btn-primary w-100 h-100" type="button" id="wrist-down-btn-landscape">
             <i class="fa fa-arrow-down" aria-hidden="true"></i>
           </button>
         </div>
@@ -148,12 +152,12 @@
       <section class="col d-flex flex-column px-2 pb-2 h-100">
         <header><h4 class="m-0">Elbow</h4></header>
         <div class="py-2 flex-grow-1">
-          <button class="btn btn-lg btn-primary w-100 h-100" type="button">
+          <button class="btn btn-lg btn-primary w-100 h-100" type="button" id="elbow-up-btn-landscape">
             <i class="fa fa-arrow-up" aria-hidden="true"></i>
           </button>
         </div>
         <div class="py-2 flex-grow-1">
-          <button class="btn btn-lg btn-primary w-100 h-100" type="button">
+          <button class="btn btn-lg btn-primary w-100 h-100" type="button" id="elbow-down-btn-landscape">
             <i class="fa fa-arrow-down" aria-hidden="true"></i>
           </button>
         </div>
@@ -162,24 +166,24 @@
       <section class="col d-flex flex-column px-2 pb-2 h-100 base">
         <header><h4 class="m-0 text-nowrap">Base & Shoulder</h4></header>
         <div class="py-2 flex-grow-1">
-          <button class="btn btn-lg btn-primary w-100 h-100" type="button">
+          <button class="btn btn-lg btn-primary w-100 h-100" type="button" id="shoulder-up-btn-landscape">
             <i class="fa fa-arrow-up" aria-hidden="true"></i>
           </button>
         </div>
         <div class="row py-2 flex-grow-1">
           <div class="col pe-2">
-            <button class="btn btn-lg btn-primary w-100 h-100" type="button">
+            <button class="btn btn-lg btn-primary w-100 h-100" type="button" id="base-ccw-btn-landscape">
               <i class="fa fa-arrow-left" aria-hidden="true"></i>
             </button>
           </div>
           <div class="col ps-2">
-            <button class="btn btn-lg btn-primary w-100 h-100" type="button">
+            <button class="btn btn-lg btn-primary w-100 h-100" type="button" id="base-cw-btn-landscape">
               <i class="fa fa-arrow-right" aria-hidden="true"></i>
             </button>
           </div>
         </div>
         <div class="py-2 flex-grow-1">
-          <button class="btn btn-lg btn-primary w-100 h-100" type="button">
+          <button class="btn btn-lg btn-primary w-100 h-100" type="button" id="shoulder-down-btn-landscape">
             <i class="fa fa-arrow-down" aria-hidden="true"></i>
           </button>
         </div>
@@ -195,7 +199,7 @@
         </label>
       </section>
       <section class="col-9 px-2">
-        <button class="btn btn-lg btn-danger w-100" type="button">
+        <button class="btn btn-lg btn-danger w-100" type="button" id="stop-all-btn-landscape">
           <i class="fa fa-ban" aria-hidden="true"></i>
           <b class="px-4">STOP</b>
           <i class="fa fa-ban" aria-hidden="true"></i>

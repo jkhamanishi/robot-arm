@@ -13,22 +13,12 @@ Usage:
 import usb_arm
 from flask import Flask, Response, request, render_template
 
-move_map = {
-    "GripsClose": None,
-    "CloseGrips": None,
-    "GripsOpen": None,
-    "OpenGrips": None,
-    "Stop": None,
-    "WristUp": None,
-    "WristDown": None,
-    "ElbowUp": None,
-    "ElbowDown": None,
-    "ShoulderUp": None,
-    "ShoulderDown": None,
-    "BaseClockWise": None,
-    "BaseCtrClockWise": None,
-    "LedOn": None
-}
+
+def get_pattern(actuator: str, direction: str = None) -> usb_arm.usb_signals.BitPattern:
+    if actuator == "STOP":
+        return usb_arm.usb_signals.STOP
+    else:
+        return getattr(getattr(usb_arm.usb_signals, actuator), direction)
 
 
 class ControllerApp(Flask):
@@ -38,17 +28,32 @@ class ControllerApp(Flask):
 
         @self.route('/')
         def index():
+            if arm is not None:
+                arm.stop()
             return render_template('index.html')
 
         @self.route('/move', methods=['POST'])
         def move():
-            action = request.form['action']
+            actuator = request.form['actuator']
+            direction = request.form['direction']
+            button_action = [actuator, direction]
             toggle = request.form['toggle']
-            if toggle == "on":
-                move_list.append(action)
-            elif toggle == "off":
-                move_list.remove(action)
-            # arm.move(pattern)
+            if actuator == "STOP":
+                keep_led_on = ["LED", "ON"] in move_list
+                move_list.clear()
+                if direction == "MOTORS" and keep_led_on:
+                    move_list.append(["LED", "ON"])
+            elif toggle == "ON":
+                move_list.append(button_action)
+            elif toggle == "OFF" and button_action in move_list:
+                move_list.remove(button_action)
+            message = get_pattern("STOP")
+            for action in move_list:
+                message = message | get_pattern(*action)
+            if arm is not None:
+                arm.tell(message)
+            else:
+                print(message)
             return Response()
 
 
