@@ -30,6 +30,7 @@ class ControllerApp(Flask):
         def index():
             if arm is not None:
                 arm.stop()
+                move_list.clear()
             return render_template('index.html')
 
         @self.route('/move', methods=['POST'])
@@ -39,21 +40,22 @@ class ControllerApp(Flask):
             button_action = [actuator, direction]
             toggle = request.form['toggle']
             if actuator == "STOP":
-                keep_led_on = ["LED", "ON"] in move_list
+                keep_led_on = ["LED", "ON"] in move_list and direction != "ALL"
                 move_list.clear()
-                if direction == "MOTORS" and keep_led_on:
+                if keep_led_on:
                     move_list.append(["LED", "ON"])
             elif toggle == "ON":
                 move_list.append(button_action)
             elif toggle == "OFF" and button_action in move_list:
                 move_list.remove(button_action)
+            self.logger.info(move_list)
             message = get_pattern("STOP")
             for action in move_list:
                 message = message | get_pattern(*action)
             if arm is not None:
                 arm.tell(message)
             else:
-                print(message)
+                self.logger.debug(message)
             return Response()
 
 
