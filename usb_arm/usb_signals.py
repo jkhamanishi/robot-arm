@@ -28,34 +28,30 @@ class BitPattern(object):
         return self.__repr__()
 
 
-STOP = BitPattern(0, 0, 0)
+class MESSAGE:
 
+    STOP = BitPattern(0, 0, 0)
 
-class GRIPPERS:
-    CLOSE = BitPattern(0x01, 0, 0)
-    OPEN = BitPattern(0x02, 0, 0)
+    class GRIPPERS:
+        CLOSE = BitPattern(0x01, 0, 0)
+        OPEN = BitPattern(0x02, 0, 0)
 
+    class WRIST:
+        UP = BitPattern(0x4, 0, 0)
+        DOWN = BitPattern(0x8, 0, 0)
 
-class WRIST:
-    UP = BitPattern(0x4, 0, 0)
-    DOWN = BitPattern(0x8, 0, 0)
+    class ELBOW:
+        UP = BitPattern(0x10, 0, 0)
+        DOWN = BitPattern(0x20, 0, 0)
 
+    class SHOULDER:
+        UP = BitPattern(0x40, 0, 0)
+        DOWN = BitPattern(0x80, 0, 0)
 
-class ELBOW:
-    UP = BitPattern(0x10, 0, 0)
-    DOWN = BitPattern(0x20, 0, 0)
+    class BASE:
+        CW = BitPattern(0, 0x01, 0)
+        CCW = BitPattern(0, 0x02, 0)
 
-
-class SHOULDER:
-    UP = BitPattern(0x40, 0, 0)
-    DOWN = BitPattern(0x80, 0, 0)
-
-
-class BASE:
-    CW = BitPattern(0, 0x01, 0)
-    CCW = BitPattern(0, 0x02, 0)
-
-
-class LED:
-    ON = BitPattern(0, 0, 1)
-    OFF = BitPattern(0, 0, 0)
+    class LED:
+        ON = BitPattern(0, 0, 1)
+        OFF = BitPattern(0, 0, 0)

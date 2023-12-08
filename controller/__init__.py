@@ -16,9 +16,9 @@ from flask import Flask, Response, request, render_template
 
 def get_pattern(actuator: str, direction: str = None) -> usb_arm.usb_signals.BitPattern:
     if actuator == "STOP":
-        return usb_arm.usb_signals.STOP
+        return usb_arm.usb_signals.MESSAGE.STOP
     else:
-        return getattr(getattr(usb_arm.usb_signals, actuator), direction)
+        return usb_arm.usb_signals.MESSAGE.__dict__[actuator].__dict__[direction]
 
 
 class ControllerApp(Flask):

@@ -1,4 +1,4 @@
-import usb_arm.usb_signals as msg
+from usb_arm.usb_signals import BitPattern, MESSAGE as MSG
 import usb.core
 from time import sleep
 from typing import Callable
@@ -7,7 +7,7 @@ DEFAULT_DURATION = 1  # seconds
 
 
 class _Move:
-    def __init__(self, move_function: Callable[[msg.BitPattern, float], None], message: msg.BitPattern):
+    def __init__(self, move_function: Callable[[BitPattern, float], None], message: BitPattern):
         self.move = move_function
         self.message = message
 
@@ -29,25 +29,25 @@ class _Actuator:
 
 
 class _EndEffector(_Actuator):
-    def __init__(self, move_function: Callable, open_msg: msg.BitPattern, close_msg: msg.BitPattern):
+    def __init__(self, move_function: Callable, open_msg: BitPattern, close_msg: BitPattern):
         self.open = _Move(move_function, open_msg)
         self.close = _Move(move_function, close_msg)
 
 
 class _Joint(_Actuator):
-    def __init__(self, move_function: Callable, up_msg: msg.BitPattern, down_msg: msg.BitPattern):
+    def __init__(self, move_function: Callable, up_msg: BitPattern, down_msg: BitPattern):
         self.up = _Move(move_function, up_msg)
         self.down = _Move(move_function, down_msg)
 
 
 class _Base(_Actuator):
-    def __init__(self, move_function: Callable, cw_msg: msg.BitPattern, ccw_msg: msg.BitPattern):
+    def __init__(self, move_function: Callable, cw_msg: BitPattern, ccw_msg: BitPattern):
         self.cw = _Move(move_function, cw_msg)
         self.ccw = _Move(move_function, ccw_msg)
 
 
 class _LED(_Actuator):
-    def __init__(self, move_function: Callable, on_msg: msg.BitPattern, off_msg: msg.BitPattern):
+    def __init__(self, move_function: Callable, on_msg: BitPattern, off_msg: BitPattern):
         self.on = _Move(move_function, on_msg)
         self.off = _Move(move_function, off_msg)
 
@@ -68,19 +68,19 @@ class Arm(object):
         self.dev.set_configuration()
 
         # Establish joints
-        self.grippers = _EndEffector(self.move, open_msg=msg.GRIPPERS.OPEN, close_msg=msg.GRIPPERS.CLOSE)
-        self.wrist = _Joint(self.move, up_msg=msg.WRIST.UP, down_msg=msg.WRIST.DOWN)
-        self.elbow = _Joint(self.move, up_msg=msg.ELBOW.UP, down_msg=msg.ELBOW.DOWN)
-        self.shoulder = _Joint(self.move, up_msg=msg.SHOULDER.UP, down_msg=msg.SHOULDER.DOWN)
-        self.base = _Base(self.move, cw_msg=msg.BASE.CW, ccw_msg=msg.BASE.CCW)
-        self.led = _LED(self.move, on_msg=msg.LED.ON, off_msg=msg.LED.OFF)
+        self.grippers = _EndEffector(self.move, open_msg=MSG.GRIPPERS.OPEN, close_msg=MSG.GRIPPERS.CLOSE)
+        self.wrist = _Joint(self.move, up_msg=MSG.WRIST.UP, down_msg=MSG.WRIST.DOWN)
+        self.elbow = _Joint(self.move, up_msg=MSG.ELBOW.UP, down_msg=MSG.ELBOW.DOWN)
+        self.shoulder = _Joint(self.move, up_msg=MSG.SHOULDER.UP, down_msg=MSG.SHOULDER.DOWN)
+        self.base = _Base(self.move, cw_msg=MSG.BASE.CW, ccw_msg=MSG.BASE.CCW)
+        self.led = _LED(self.move, on_msg=MSG.LED.ON, off_msg=MSG.LED.OFF)
 
-    def tell(self, message: msg.BitPattern):
+    def tell(self, message: BitPattern):
         """Send a USB message to the arm"""
         self.dev.ctrl_transfer(0x40, 6, 0x100, 0, message)
 
     def stop(self):
-        self.tell(msg.STOP)
+        self.tell(MSG.STOP)
 
     def safe_tell(self, fn):
         """
@@ -94,7 +94,7 @@ class Arm(object):
             self.stop()
             raise
 
-    def move(self, pattern: msg.BitPattern, time=DEFAULT_DURATION):
+    def move(self, pattern: BitPattern, time=DEFAULT_DURATION):
         """Perform a pattern move with timing and stop"""
         try:
             self.tell(pattern)
