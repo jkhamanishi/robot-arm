@@ -18,8 +18,7 @@ This repo is a modified version of [python_usb_robot_arm](https://github.com/ori
 3. Plug the robot into your computer via USB.
 4. Download and run the most recent version of [**Zadig**](https://zadig.akeo.ie/).
 5. Select the robot device. It may be listed as "Unknown Device #1". Ensure that it is the robot by checking 
-that the **USB ID** displays 1267 and 0000 (as the Vendor ID and Product ID respectively). 
-![Zadig screenshot](docs/media/Zadig.jpg)
+that the **USB ID** displays 1267 and 0000 (as the Vendor ID and Product ID respectively). <img src="docs/media/Zadig.jpg" alt="Zadig screenshot" width="500"/>
 6. Choose "libusb-win32" as the driver to be installed. 
 7. Click "Install Driver". The installation may take a couple of minutes.
 8. Install the `pyusb` library. Installing through pip is suffice: `pip install pyusb`
