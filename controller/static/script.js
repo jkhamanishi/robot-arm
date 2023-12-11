@@ -7,16 +7,14 @@ const buttons = {
     "stop": ["all"]
 };
 
-const layouts = ["portrait", "landscape"];
-
 $(document).ready(() => {
     Object.entries(buttons).forEach(([actuator, directions]) => {
-        directions.forEach(direction => layouts.forEach(layout => {
-            const buttonID = `${actuator}-${direction}-btn-${layout}`;
+        directions.forEach(direction => {
+            const buttonID = `${actuator}-${direction}-btn`;
             $("#"+buttonID).on("mousedown mouseup touchstart touchend", buttonHandler);
-        }));
+        });
     });
-    layouts.forEach(layout => $(`#led-btn-${layout}`).on("click", switchHandler));
+    $("#led-btn").on("click", switchHandler);
 });
 
 function buttonHandler(e){
@@ -33,7 +31,7 @@ function buttonHandler(e){
             actuator = buttonDetails[0].toUpperCase();
             direction = buttonDetails[1].toUpperCase();
             if (actuator == "STOP") {
-                setLEDCheckboxes(false);
+                $("#led-btn").prop('checked', false)
             }
             break;
         case "mouseup":
@@ -50,15 +48,10 @@ function buttonHandler(e){
 function switchHandler(e){
     e.preventDefault
     const isChecked = e.currentTarget.checked;
-    setLEDCheckboxes(isChecked);
     const message = {
         'actuator': "LED",
         'direction': "ON",
         'toggle': isChecked ? "ON" : "OFF"
     };
     $.post('/move', message);
-}
-
-function setLEDCheckboxes(checked){
-    layouts.forEach(layout => $(`#led-btn-${layout}`).prop('checked', checked));
 }
