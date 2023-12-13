@@ -68,12 +68,12 @@ class Arm(object):
         self.dev.set_configuration()
 
         # Establish joints
-        self.grippers = _EndEffector(self.move, open_msg=MSG.GRIPPERS.OPEN, close_msg=MSG.GRIPPERS.CLOSE)
-        self.wrist = _Joint(self.move, up_msg=MSG.WRIST.UP, down_msg=MSG.WRIST.DOWN)
-        self.elbow = _Joint(self.move, up_msg=MSG.ELBOW.UP, down_msg=MSG.ELBOW.DOWN)
-        self.shoulder = _Joint(self.move, up_msg=MSG.SHOULDER.UP, down_msg=MSG.SHOULDER.DOWN)
-        self.base = _Base(self.move, cw_msg=MSG.BASE.CW, ccw_msg=MSG.BASE.CCW)
-        self.led = _LED(self.move, on_msg=MSG.LED.ON, off_msg=MSG.LED.OFF)
+        self.grippers = _EndEffector(self.move, open_msg=MSG.GRIPPERS_OPEN, close_msg=MSG.GRIPPERS_CLOSE)
+        self.wrist = _Joint(self.move, up_msg=MSG.WRIST_UP, down_msg=MSG.WRIST_DOWN)
+        self.elbow = _Joint(self.move, up_msg=MSG.ELBOW_UP, down_msg=MSG.ELBOW_DOWN)
+        self.shoulder = _Joint(self.move, up_msg=MSG.SHOULDER_UP, down_msg=MSG.SHOULDER_DOWN)
+        self.base = _Base(self.move, cw_msg=MSG.BASE_CW, ccw_msg=MSG.BASE_CCW)
+        self.led = _LED(self.move, on_msg=MSG.LED_ON, off_msg=MSG.LED_OFF)
 
     def tell(self, message: BitPattern):
         """Send a USB message to the arm"""
