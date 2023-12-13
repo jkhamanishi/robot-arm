@@ -52,42 +52,42 @@ arm.blink()
 ```
 
 The two LED commands are as follows:
-- `arm.led.on()`
-- `arm.led.off()`
+- `arm.led_on()`
+- `arm.led_off()`
 
-The commands take in one optional argument: the duration time in seconds.
+The commands take in one optional argument: the duration time in seconds. By default, the duration is one second.
 
 
 ### Movement
 The following list consists of all single movement commands:
-- `arm.grippers.open()`
-- `arm.grippers.close()`
-- `arm.wrist.up()`
-- `arm.wrist.down()`
-- `arm.elbow.up()`
-- `arm.elbow.down()`
-- `arm.shoulder.up()`
-- `arm.shoulder.down()`
-- `arm.base.cw()`
-- `arm.base.ccw()`
+- `arm.grippers_open()`
+- `arm.grippers_close()`
+- `arm.wrist_up()`
+- `arm.wrist_down()`
+- `arm.elbow_up()`
+- `arm.elbow_down()`
+- `arm.shoulder_up()`
+- `arm.shoulder_down()`
+- `arm.base_cw()`
+- `arm.base_ccw()`
 
 And if needed, 
 - `arm.stop()`
 
-The commands all take in one optional argument: the duration time in seconds.
+The commands all take in one optional argument: the duration time in seconds. By default, the duration is one second.
 
 ### Combining Commands
-A callable can be created by performing a bit-wise OR operator on two or more commands.
+A callable combination can be created by performing a bit-wise OR operator on two or more commands.
 
-    >>> custom_combo = arm.shoulder.up | arm.wrist.down
+    >>> custom_combo = arm.shoulder_up | arm.wrist_down
     >>> custom_combo(3)  # perform combined command for 3 seconds
 
 This can also be executed in one line:
 
-    >>> (arm.shoulder.up | arm.wrist.down)(3)
+    >>> (arm.shoulder_up | arm.wrist_down)(3)
 
 Unfortunately, due to the limited amount of current in the system, the arm may not be able to perform two or more 
-commands at the same time.
+movement commands at the same time.
 
 
 

@@ -1,60 +1,26 @@
+"""
+Maplin/OWI USB Robot arm control.
+
+Code derrived from python_usb_robot_arm by orionrobots
+
+Usage:
+
+>>> import usb_arm
+>>> arm = usb_arm.Arm()
+>>> arm.grippers_open()
+>>> arm.block_left()  # WARNING - ARM SHOULD BE ALL THE WAY RIGHT BEFORE TRYING THIS
+
+"""
+
 from usb_arm.usb_signals import BitPattern, MESSAGE as MSG
 import usb.core
 from time import sleep
-from typing import Callable
 
 DEFAULT_DURATION = 1  # seconds
 
 
-class _Move:
-    def __init__(self, move_function: Callable[[BitPattern, float], None], message: BitPattern):
-        self.move = move_function
-        self.message = message
-
-    def __call__(self, time: float = DEFAULT_DURATION):
-        self.move(self.message, time)
-
-    def __or__(self, other):
-        return _Move(self.move, self.message | other.message)
-
-    def __repr__(self):
-        return "<_Move message:%s>" % self.message
-
-    def __str__(self):
-        return self.__repr__()
-
-
-class _Actuator:
-    pass
-
-
-class _EndEffector(_Actuator):
-    def __init__(self, move_function: Callable, open_msg: BitPattern, close_msg: BitPattern):
-        self.open = _Move(move_function, open_msg)
-        self.close = _Move(move_function, close_msg)
-
-
-class _Joint(_Actuator):
-    def __init__(self, move_function: Callable, up_msg: BitPattern, down_msg: BitPattern):
-        self.up = _Move(move_function, up_msg)
-        self.down = _Move(move_function, down_msg)
-
-
-class _Base(_Actuator):
-    def __init__(self, move_function: Callable, cw_msg: BitPattern, ccw_msg: BitPattern):
-        self.cw = _Move(move_function, cw_msg)
-        self.ccw = _Move(move_function, ccw_msg)
-
-
-class _LED(_Actuator):
-    def __init__(self, move_function: Callable, on_msg: BitPattern, off_msg: BitPattern):
-        self.on = _Move(move_function, on_msg)
-        self.off = _Move(move_function, off_msg)
-
-
-class Arm(object):
+class Arm:
     """Arm interface"""
-    __slots__ = ['dev', 'grippers', 'wrist', 'elbow', 'shoulder', 'base', 'led']
 
     def __init__(self):
         # Get USB device
@@ -68,12 +34,18 @@ class Arm(object):
         self.dev.set_configuration()
 
         # Establish joints
-        self.grippers = _EndEffector(self.move, open_msg=MSG.GRIPPERS_OPEN, close_msg=MSG.GRIPPERS_CLOSE)
-        self.wrist = _Joint(self.move, up_msg=MSG.WRIST_UP, down_msg=MSG.WRIST_DOWN)
-        self.elbow = _Joint(self.move, up_msg=MSG.ELBOW_UP, down_msg=MSG.ELBOW_DOWN)
-        self.shoulder = _Joint(self.move, up_msg=MSG.SHOULDER_UP, down_msg=MSG.SHOULDER_DOWN)
-        self.base = _Base(self.move, cw_msg=MSG.BASE_CW, ccw_msg=MSG.BASE_CCW)
-        self.led = _LED(self.move, on_msg=MSG.LED_ON, off_msg=MSG.LED_OFF)
+        self.grippers_open = self.make_action(MSG.GRIPPERS_OPEN)
+        self.grippers_close = self.make_action(MSG.GRIPPERS_CLOSE)
+        self.wrist_up = self.make_action(MSG.WRIST_UP)
+        self.wrist_down = self.make_action(MSG.WRIST_DOWN)
+        self.elbow_up = self.make_action(MSG.ELBOW_UP)
+        self.elbow_down = self.make_action(MSG.ELBOW_DOWN)
+        self.shoulder_up = self.make_action(MSG.SHOULDER_UP)
+        self.shoulder_down = self.make_action(MSG.SHOULDER_DOWN)
+        self.base_cw = self.make_action(MSG.BASE_CW)
+        self.base_ccw = self.make_action(MSG.BASE_CCW)
+        self.led_on = self.make_action(MSG.LED_ON)
+        self.led_off = self.make_action(MSG.LED_OFF)
 
     def tell(self, message: BitPattern):
         """Send a USB message to the arm"""
@@ -94,7 +66,7 @@ class Arm(object):
             self.stop()
             raise
 
-    def move(self, pattern: BitPattern, time=DEFAULT_DURATION):
+    def move(self, pattern: BitPattern, time: float = DEFAULT_DURATION):
         """Perform a pattern move with timing and stop"""
         try:
             self.tell(pattern)
@@ -102,20 +74,42 @@ class Arm(object):
         finally:
             self.stop()
 
+    def make_action(self, pattern: BitPattern):
+        """Creates _Action object"""
+        move_arm = self.move
+
+        class _Action:
+            def __init__(self, message: BitPattern):
+                self.message = message
+
+            def __call__(self, time: float = DEFAULT_DURATION):
+                move_arm(self.message, time)
+
+            def __or__(self, other):
+                return _Action(self.message | other.message)
+
+            def __repr__(self):
+                return "<_Action with message:%s>" % self.message
+
+            def __str__(self):
+                return self.__repr__()
+
+        return _Action(pattern)
+
     def blink(self, count=5):
         """Blink the LED on the arm. By default, five times."""
         for _ in range(count):
-            self.led.on(0.5)
-            self.led.off(0.5)
+            self.led_on(0.5)
+            self.led_off(0.5)
 
     def block_left(self):
-        self.grippers.close(1.1)
-        self.base.ccw(8.5)
-        self.grippers.open()
+        self.grippers_close(1.1)
+        self.base_ccw(8.5)
+        self.grippers_open()
         self.blink()
 
     def block_right(self):
-        self.grippers.close(1.1)
-        self.base.cw(8.5)
-        self.grippers.open()
+        self.grippers_close(1.1)
+        self.base_cw(8.5)
+        self.grippers_open()
         self.blink()
