@@ -91,7 +91,25 @@ This can also be executed in one line:
 Unfortunately, due to the limited amount of current in the system, the arm may not be able to perform two or more 
 movement commands at the same time.
 
+### The Flask Controller
+The controller can be run on its own by executing the following commands:
 
+    >>> from controller import ControllerApp
+    >>> app = ControllerApp()
+    >>> app.run(host="0.0.0.0", port=5000)
+
+This will however run the app without connecting to the arm. 
+You can simply connect the arm to the controller by passing the arm as an argument into the `ControllerApp` initialization. 
+The following script runs the arm with the controller connected.
+
+```python
+import usb_arm
+from controller import ControllerApp
+
+arm = usb_arm.Arm()
+app = ControllerApp(arm)
+app.run(host="0.0.0.0", port=5000)
+```
 
 ## Related Work
 
