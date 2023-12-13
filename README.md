@@ -71,10 +71,12 @@ The following list consists of all single movement commands:
 - `arm.base_cw()`
 - `arm.base_ccw()`
 
-And if needed, 
-- `arm.stop()`
-
 The commands all take in one optional argument: the duration time in seconds. By default, the duration is one second.
+
+### Stopping
+If you are not using the Flask controller, then you can easily abort the current running movement command(s) by 
+inputting `Ctrl+C` in the console. Additionally, there is a stop command for the arm if needed: 
+- `arm.stop()`
 
 ### Combining Commands
 A callable combination can be created by performing a bit-wise OR operator on two or more commands.
