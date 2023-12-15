@@ -21,24 +21,28 @@ def get_pattern(actuator: str, direction: str = None) -> usb_arm.usb_signals.Bit
         return usb_arm.usb_signals.MESSAGE[f"{actuator}_{direction}"]
 
 
+def create_message(move_list) -> usb_arm.usb_signals.BitPattern:
+    message = get_pattern("STOP")
+    for action in move_list:
+        message = message | get_pattern(*action)
+    return message
+
+
 class ControllerApp(Flask):
     def __init__(self, arm: usb_arm.Arm = None):
         super().__init__(__name__)
+        app = self
         move_list = []
 
-        @self.route('/')
+        @app.route('/')
         def index():
             if arm is not None:
                 arm.stop()
                 move_list.clear()
             return render_template('index.html')
 
-        @self.route('/move', methods=['POST'])
-        def move():
-            actuator = request.form['actuator']
-            direction = request.form['direction']
+        def update_move_list(actuator, direction, toggle):
             button_action = [actuator, direction]
-            toggle = request.form['toggle']
             if actuator == "STOP":
                 keep_led_on = ["LED", "ON"] in move_list and direction != "ALL"
                 move_list.clear()
@@ -48,14 +52,19 @@ class ControllerApp(Flask):
                 move_list.append(button_action)
             elif toggle == "OFF" and button_action in move_list:
                 move_list.remove(button_action)
-            self.logger.info(move_list)
-            message = get_pattern("STOP")
-            for action in move_list:
-                message = message | get_pattern(*action)
+
+        @app.route('/move', methods=['POST'])
+        def move():
+            actuator = request.form['actuator']
+            direction = request.form['direction']
+            toggle = request.form['toggle']
+            update_move_list(actuator, direction, toggle)
+            message = create_message(move_list)
             if arm is not None:
                 arm.tell(message)
             else:
-                self.logger.debug(message)
+                app.logger.debug(move_list)
+                app.logger.debug(message)
             return Response()
 
 

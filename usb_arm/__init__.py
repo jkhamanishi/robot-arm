@@ -19,6 +19,24 @@ from time import sleep
 DEFAULT_DURATION = 1  # seconds
 
 
+class _Action:
+    def __init__(self, move_fcn, message: BitPattern):
+        self._move = move_fcn
+        self.message = message
+
+    def __call__(self, time: float = DEFAULT_DURATION):
+        self._move(self.message, time)
+
+    def __or__(self, other):
+        return _Action(self._move, self.message | other.message)
+
+    def __repr__(self):
+        return "<_Action with message:%s>" % self.message
+
+    def __str__(self):
+        return self.__repr__()
+
+
 class Arm:
     """Arm interface"""
 
@@ -54,18 +72,6 @@ class Arm:
     def stop(self):
         self.tell(MSG.STOP)
 
-    def safe_tell(self, fn):
-        """
-        Send a message to the arm, with a stop
-        to ensure that the robot stops in the
-        case of an exception
-        """
-        try:
-            fn()
-        except Exception:
-            self.stop()
-            raise
-
     def move(self, pattern: BitPattern, time: float = DEFAULT_DURATION):
         """Perform a pattern move with timing and stop"""
         try:
@@ -76,25 +82,7 @@ class Arm:
 
     def make_action(self, pattern: BitPattern):
         """Creates _Action object"""
-        move_arm = self.move
-
-        class _Action:
-            def __init__(self, message: BitPattern):
-                self.message = message
-
-            def __call__(self, time: float = DEFAULT_DURATION):
-                move_arm(self.message, time)
-
-            def __or__(self, other):
-                return _Action(self.message | other.message)
-
-            def __repr__(self):
-                return "<_Action with message:%s>" % self.message
-
-            def __str__(self):
-                return self.__repr__()
-
-        return _Action(pattern)
+        return _Action(self.move, pattern)
 
     def blink(self, count=5):
         """Blink the LED on the arm. By default, five times."""
