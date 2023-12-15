@@ -18,7 +18,7 @@ def get_pattern(actuator: str, direction: str = None) -> usb_arm.usb_signals.Bit
     if actuator == "STOP":
         return usb_arm.usb_signals.MESSAGE.STOP
     else:
-        return getattr(usb_arm.usb_signals.MESSAGE, f"{actuator}_{direction}")
+        return usb_arm.usb_signals.MESSAGE[f"{actuator}_{direction}"]
 
 
 class ControllerApp(Flask):

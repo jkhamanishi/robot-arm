@@ -29,6 +29,7 @@ class BitPattern(object):
 
 
 class MESSAGE:
+    __class_getitem__ = classmethod(getattr)  # Enable subscription
     STOP = BitPattern(0, 0, 0)
     GRIPPERS_CLOSE = BitPattern(0x01, 0, 0)
     GRIPPERS_OPEN = BitPattern(0x02, 0, 0)
