@@ -32,26 +32,26 @@ class ControllerApp(Flask):
     def __init__(self, arm: usb_arm.Arm = None):
         super().__init__(__name__)
         app = self
-        move_list = []
+        self.move_list = []
 
         @app.route('/')
         def index():
             if arm is not None:
                 arm.stop()
-                move_list.clear()
+                self.move_list.clear()
             return render_template('index.html')
 
         def update_move_list(actuator, direction, toggle):
             button_action = [actuator, direction]
             if actuator == "STOP":
-                keep_led_on = ["LED", "ON"] in move_list and direction != "ALL"
-                move_list.clear()
+                keep_led_on = ["LED", "ON"] in self.move_list and direction != "ALL"
+                self.move_list.clear()
                 if keep_led_on:
-                    move_list.append(["LED", "ON"])
+                    self.move_list.append(["LED", "ON"])
             elif toggle == "ON":
-                move_list.append(button_action)
-            elif toggle == "OFF" and button_action in move_list:
-                move_list.remove(button_action)
+                self.move_list.append(button_action)
+            elif toggle == "OFF" and button_action in self.move_list:
+                self.move_list.remove(button_action)
 
         @app.route('/move', methods=['POST'])
         def move():
@@ -59,11 +59,11 @@ class ControllerApp(Flask):
             direction = request.form['direction']
             toggle = request.form['toggle']
             update_move_list(actuator, direction, toggle)
-            message = create_message(move_list)
+            message = create_message(self.move_list)
             if arm is not None:
                 arm.tell(message)
             else:
-                app.logger.debug(move_list)
+                app.logger.debug(self.move_list)
                 app.logger.debug(message)
             return Response()
 
