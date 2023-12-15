@@ -15,6 +15,14 @@ main > #base {
   gap: 10px;
 }
 
+.btn > * {
+  font-size: 10.0vmin;
+}
+
+#base .btn > * {
+  font-size: 6.0vmin;
+}
+
 @media (orientation: portrait){
   main {
     grid: repeat(4, 1fr) auto / 100px 1fr 1fr;
@@ -27,6 +35,11 @@ main > #base {
     grid-template-areas:
       "ccw  up  cw"
       "ccw down cw";
+  }
+
+  #base > #base-cw-btn > *,
+  #base > #base-ccw-btn > * {
+    font-size: 9.0vmin;
   }
 }
 
@@ -44,6 +57,11 @@ main > #base {
       "ccw cw"
       "down down";
   }
+
+  #base > #shoulder-up-btn > *,
+  #base > #shoulder-down-btn > * {
+    font-size: 9.0vmin;
+  }
 }
 
 main > #base > #base-ccw-btn { grid-area: ccw }
@@ -53,11 +71,3 @@ main > #base > #shoulder-down-btn { grid-area: down }
 
 main > #led-container { grid-area: -2 / 1 / -1 / 2 }
 main > #stop-all-btn  { grid-area: -2 / 2 / -1 / -1 }
-
-.btn > * {
-  font-size: 8.0vmin;
-}
-
-#base .btn > * {
-  font-size: 4.0vmin;
-}
