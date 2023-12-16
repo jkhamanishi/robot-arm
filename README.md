@@ -25,6 +25,9 @@ that the **USB ID** displays 1267 and 0000 (as the Vendor ID and Product ID resp
 9. Run [`test_connection.py`](test_connection.py) to check that the connection works. The light on the robot should 
 flash five times.
 
+## Demos
+Click [here](https://jkhamanishi.github.io/robot-arm/) for demos.
+
 ## Usage
 As a library:
 
