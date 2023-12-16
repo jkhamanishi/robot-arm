@@ -1,19 +1,5 @@
-const buttons = {
-    "grippers": ["open", "close"],
-    "wrist": ["up", "down"],
-    "elbow": ["up", "down"],
-    "shoulder": ["up", "down"],
-    "base": ["ccw", "cw"],
-    "stop": ["all"]
-};
-
 $(document).ready(() => {
-    Object.entries(buttons).forEach(([actuator, directions]) => {
-        directions.forEach(direction => {
-            const buttonID = `${actuator}-${direction}-btn`;
-            $("#"+buttonID).on("mousedown mouseup touchstart touchend", buttonHandler);
-        });
-    });
+    $("button").on("mousedown mouseup touchstart touchend", buttonHandler);
     $("#led-btn").on("click", switchHandler);
 });
 
