@@ -30,7 +30,7 @@ def create_message(move_list) -> usb_arm.usb_signals.BitPattern:
 
 class ControllerApp(Flask):
     def __init__(self, arm: usb_arm.Arm = None):
-        super().__init__(__name__)
+        super().__init__(__name__, static_url_path="/static")
         app = self
         self.move_list = []
 
